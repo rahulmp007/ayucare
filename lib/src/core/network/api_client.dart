@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -10,22 +9,46 @@ class ApiClient {
   final _defaultHeaders = {'Content-Type': 'application/json'};
 
   /// GET
-  Future<Map<String, dynamic>> get({required String url}) async {
-    final http.Response response = await http.get(Uri.parse(url));
+  Future<Map<String, dynamic>> get({
+    required String url,
+    Map<String, String>? headers,
+  }) async {
+    final http.Response response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
     return _processResponse(response);
   }
 
+  /// POST
   /// POST
   Future<Map<String, dynamic>> post({
     required String url,
     required Map<String, dynamic> data,
     Map<String, String>? headers,
+    bool asForm = false, // <--- new
   }) async {
-    final http.Response response = await http.post(
-      Uri.parse(url),
-      headers: {..._defaultHeaders, ...?headers},
-      body: jsonEncode(data),
-    );
+    http.Response response;
+
+    if (asForm) {
+      // Send as x-www-form-urlencoded
+      response = await http.post(
+        Uri.parse(url),
+        headers: {
+          ...?headers,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data.map((k, v) => MapEntry(k, v.toString())),
+      );
+    } else {
+      // Send as JSON
+      response = await http.post(
+        Uri.parse(url),
+        headers: {..._defaultHeaders, ...?headers},
+        body: jsonEncode(data),
+      );
+    }
+
     return _processResponse(response);
   }
 
