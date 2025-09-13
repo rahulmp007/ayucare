@@ -7,7 +7,6 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Inject controller
     final controller = Get.find<SplashController>();
 
     return Container(

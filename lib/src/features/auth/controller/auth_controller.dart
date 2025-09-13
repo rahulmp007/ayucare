@@ -11,7 +11,6 @@ class AuthController extends GetxController {
 
   AuthController({required this.repository, required this.secureStorage});
 
-  // Use Ds<User> instead of separate variables
   final authState = Rx<Ds<User>>(Initial<User>());
 
   final TextEditingController usernameController = TextEditingController();

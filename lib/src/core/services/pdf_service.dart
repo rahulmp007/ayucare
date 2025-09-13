@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -20,12 +19,10 @@ class PdfService {
   }) async {
     final pdf = pw.Document();
 
-    // Load logo from assets
     final logoBytes = await rootBundle.load('assets/images/logo.png');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     final fontData = await rootBundle.load('assets/fonts/NotoSans.ttf');
-    log('font : $fontData');
     final notoFont = pw.Font.ttf(fontData);
 
     pdf.addPage(
@@ -81,7 +78,6 @@ class PdfService {
 
                   pw.Divider(),
 
-                  // Patient Details
                   pw.Text(
                     "Patient Details",
                     style: pw.TextStyle(
@@ -117,17 +113,14 @@ class PdfService {
                   pw.Table.fromTextArray(
                     headers: ["Treatment", "Price", "Male", "Female", "Total"],
                     headerStyle: pw.TextStyle(
-                      font: notoFont, // ✅ Use NotoSans font here
+                      font: notoFont,
                       fontWeight: pw.FontWeight.bold,
                       color: PdfColors.green,
                     ),
                     headerDecoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
-                    cellStyle: pw.TextStyle(
-                      font: notoFont, // ✅ Use NotoSans for table cells too
-                      fontSize: 12,
-                    ),
+                    cellStyle: pw.TextStyle(font: notoFont, fontSize: 12),
                     cellAlignment: pw.Alignment.centerLeft,
                     data: treatments.map((t) {
                       return [
@@ -142,7 +135,6 @@ class PdfService {
 
                   pw.SizedBox(height: 20),
 
-                  // Totals
                   pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.end,
                     children: [
@@ -188,7 +180,6 @@ class PdfService {
 
                   pw.SizedBox(height: 30),
 
-                  // Footer
                   pw.Center(
                     child: pw.Column(
                       children: [

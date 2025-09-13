@@ -78,7 +78,6 @@ class BookSlot extends StatelessWidget {
 
             SizedBox(height: 30),
 
-            //body of form
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(

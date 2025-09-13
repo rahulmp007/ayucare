@@ -1,7 +1,6 @@
 import 'package:ayucare/src/core/services/pdf_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:printing/printing.dart';
 
 class PatientPdfPreviewPage extends StatelessWidget {
@@ -49,9 +48,9 @@ class PatientPdfPreviewPage extends StatelessWidget {
           advance: 1200,
           balance: 5920,
         ),
-        canChangePageFormat: false, // lock to A4 if you want
+        canChangePageFormat: false,
         canChangeOrientation: true,
-        canDebug: true, // helpful for live debugging
+        canDebug: true,
       ),
     );
   }

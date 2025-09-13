@@ -22,7 +22,7 @@ class Customtextfield extends StatelessWidget {
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(color: Colors.black54, fontSize: 14),
           filled: true,
-          fillColor: const Color(0x40D9D9D9), // #D9D9D940
+          fillColor: const Color(0x40D9D9D9), 
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 14,
@@ -30,7 +30,7 @@ class Customtextfield extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.53),
             borderSide: const BorderSide(
-              color: Color(0x1A000000), // #0000001A
+              color: Color(0x1A000000), 
               width: 0.85,
             ),
           ),

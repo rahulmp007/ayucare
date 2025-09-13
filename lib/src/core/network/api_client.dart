@@ -22,7 +22,6 @@ class ApiClient {
   }
 
   /// POST
-  /// POST
   Future<Map<String, dynamic>> post({
     required String url,
     required Map<String, dynamic> data,

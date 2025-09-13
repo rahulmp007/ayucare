@@ -16,11 +16,10 @@ class Bookings extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 100), // for bottom button
+          padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Section
               Container(
                 padding: const EdgeInsets.only(top: 4, bottom: 20),
                 decoration: const BoxDecoration(
@@ -30,7 +29,6 @@ class Bookings extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    // Top Bar Icons
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -51,7 +49,6 @@ class Bookings extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
 
-                    // Search Bar
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -105,7 +102,6 @@ class Bookings extends StatelessWidget {
 
                     const SizedBox(height: 28),
 
-                    // Sort Dropdown
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(

@@ -25,7 +25,7 @@ class _DatepickerState extends State<Datepicker> {
             colorScheme: const ColorScheme.light(
               primary: Colors.green,
               onPrimary: Colors.white,
-              onSurface: Colors.black, // Default text color
+              onSurface: Colors.black,
             ),
             dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
@@ -37,9 +37,9 @@ class _DatepickerState extends State<Datepicker> {
     setState(() {
       selectedDate = picked;
     });
-    // Trigger callback
+
     widget.onDateChanged?.call(selectedDate);
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,9 @@ class _DatepickerState extends State<Datepicker> {
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: const Color(0x40D9D9D9), // background: #D9D9D940
+          color: const Color(0x40D9D9D9),
           borderRadius: BorderRadius.circular(8.53),
-          border: Border.all(
-            color: const Color(0x1A000000), // border: #0000001A
-            width: 0.85,
-          ),
+          border: Border.all(color: const Color(0x1A000000), width: 0.85),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
