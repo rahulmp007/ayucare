@@ -10,5 +10,8 @@ abstract class BookingsRepository {
   Future<Either<Failure, List<Treatment>>> getTreatments({
     required String token,
   });
-  Future<void> registerPatient({required String token});
+  Future<void> registerPatient({
+    required String token,
+    required Map<String, dynamic> data,
+  });
 }

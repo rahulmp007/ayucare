@@ -36,4 +36,6 @@ class PatientModel extends Patient {
           .toList(),
     );
   }
+
+  Patient toEntity() => this;
 }

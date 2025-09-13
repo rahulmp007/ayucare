@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
@@ -31,7 +32,10 @@ class ApiClient {
     http.Response response;
 
     if (asForm) {
-      // Send as x-www-form-urlencoded
+      data.map((k, v) {
+        log(MapEntry(k, v.toString()).toString());
+        return MapEntry(k, v.toString());
+      });
       response = await http.post(
         Uri.parse(url),
         headers: {

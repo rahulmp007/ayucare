@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:ayucare/src/features/auth/presentation/widgets/button.dart';
-import 'package:ayucare/src/features/auth/presentation/widgets/custom_dropdown.dart';
+import 'package:ayucare/src/features/bookings/controller/bookings_controller.dart';
+import 'package:ayucare/src/features/bookings/presentation/pages/print.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/add_treatment.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/custom_dropdown.dart';
 import 'package:ayucare/src/features/auth/presentation/widgets/custom_textfield.dart';
-import 'package:ayucare/src/features/auth/presentation/widgets/date_picker.dart';
-import 'package:ayucare/src/features/auth/presentation/widgets/hours.dart';
-import 'package:ayucare/src/features/auth/presentation/widgets/minutes.dart';
-import 'package:ayucare/src/features/auth/presentation/widgets/payment_opt.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/date_picker.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/hours.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/minutes.dart';
+import 'package:ayucare/src/features/bookings/presentation/widgets/payment_opt.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +19,7 @@ class BookSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController textController = TextEditingController();
+    final ctr = Get.find<BookingsController>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -90,7 +93,7 @@ class BookSlot extends StatelessWidget {
                     ),
                   ),
                   Customtextfield(
-                    controller: textController,
+                    controller: ctr.nameCtrl,
                     hintText: 'Enter your full name',
                   ),
                 ],
@@ -113,7 +116,7 @@ class BookSlot extends StatelessWidget {
                     ),
                   ),
                   Customtextfield(
-                    controller: textController,
+                    controller: ctr.whatsappCtrl,
                     hintText: 'Enter your Whatsapp number',
                   ),
                 ],
@@ -136,7 +139,7 @@ class BookSlot extends StatelessWidget {
                     ),
                   ),
                   Customtextfield(
-                    controller: textController,
+                    controller: ctr.addressCtrl,
                     hintText: 'Enter your full address',
                   ),
                 ],
@@ -161,9 +164,9 @@ class BookSlot extends StatelessWidget {
                   CustomDropdown(
                     hintText: 'Choose your location',
                     items: ["Arpookara", "villoonni", "kottayam", "Eranakulam"],
-                    selectedValue: 'Eranakulam',
+                    selectedValue: ctr.location.value,
                     onChanged: (String? value) {
-                      log("value:$value");
+                      ctr.setLocation(value);
                     },
                   ),
                 ],
@@ -185,13 +188,20 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  CustomDropdown(
-                    hintText: 'Select the branch',
-                    items: ["Arpookara", "villoonni", "kottayam", "Eranakulam"],
-                    selectedValue: 'Eranakulam',
-                    onChanged: (String? value) {
-                      log("value:$value");
-                    },
+                  Obx(
+                    () => CustomDropdown(
+                      hintText: 'Select the branch',
+                      items: [
+                        "Arpookara",
+                        "villoonni",
+                        "kottayam",
+                        "Eranakulam",
+                      ],
+                      selectedValue: ctr.branch.value,
+                      onChanged: (String? value) {
+                        ctr.setBranch(value);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -212,10 +222,16 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  Obx(() {
+                    return ctr.addTreatments.value == true
+                        ? AddTreatment()
+                        : SizedBox.shrink();
+                  }),
+
                   Button(
                     title: '+ Add Treatments',
                     onTap: () {
-                      // ctrl.addTreatmentInfo(context);
+                      ctr.setAddTreatments();
                     },
                   ),
                 ],
@@ -237,7 +253,10 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Customtextfield(controller: textController, hintText: ''),
+                  Customtextfield(
+                    controller: ctr.totalAmountCtrl,
+                    hintText: '',
+                  ),
                 ],
               ),
             ),
@@ -257,7 +276,10 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Customtextfield(controller: textController, hintText: ''),
+                  Customtextfield(
+                    controller: ctr.discountAmountCtrl,
+                    hintText: '',
+                  ),
                 ],
               ),
             ),
@@ -301,7 +323,10 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Customtextfield(controller: textController, hintText: ''),
+                  Customtextfield(
+                    controller: ctr.advanceAmountCtrl,
+                    hintText: '',
+                  ),
                 ],
               ),
             ),
@@ -321,7 +346,10 @@ class BookSlot extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Customtextfield(controller: textController, hintText: ''),
+                  Customtextfield(
+                    controller: ctr.balanceAmountCtrl,
+                    hintText: '',
+                  ),
                 ],
               ),
             ),
@@ -401,8 +429,9 @@ class BookSlot extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: Button(
               title: 'Save',
-              onTap: () {
-                // invoiceCtrl.generateInvoice();
+              onTap: () async {
+                // await ctr.registerPatient();
+                Get.to(() => PatientPdfPreviewPage());
               },
             ),
           ),
