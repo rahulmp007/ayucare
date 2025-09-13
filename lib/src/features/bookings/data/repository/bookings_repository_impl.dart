@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:ayucare/src/core/error/failure.dart';
 import 'package:ayucare/src/core/url.dart';
 import 'package:ayucare/src/features/bookings/data/models/branch_model.dart';
@@ -25,11 +28,20 @@ class BookingsRepositoryImpl implements BookingsRepository {
         url: "${Url.baseUrl}/${Url.patientList}",
         headers: {"Authorization": "Bearer $token"},
       );
+
       if (response['status'] == true) {
-        if (response['status'] == true && response['patient'] != null) {
-          final patients = (response['patient'] as List<dynamic>)
-              .map((e) => PatientModel.fromJson(e))
+        final rawPatients = response['patient'];
+
+        if (rawPatients != null && rawPatients is List) {
+          final patients = rawPatients
+              .take(5)
+              .map(
+                (e) => PatientModel.fromJson(
+                  Map<String, dynamic>.from(e as Map),
+                ).toEntity(),
+              )
               .toList();
+
           return Right(patients);
         } else {
           return Right([]);
@@ -48,18 +60,20 @@ class BookingsRepositoryImpl implements BookingsRepository {
   }) async {
     try {
       final response = await client.get(
-        url: "${Url.baseUrl}${Url.branches}",
+        url: "${Url.baseUrl}/${Url.branches}",
         headers: {"Authorization": "Bearer $token"},
       );
       if (response['status'] == true) {
-        final branches = (response as List<dynamic>)
+        final branches = (response['branches'] as List<dynamic>)
             .map((e) => BranchModel.fromJson(e))
             .toList();
+
         return Right(branches);
       } else {
         return Left(Failure(message: "Failed to fetch branches"));
       }
     } catch (e) {
+      log(e.toString());
       return Left(Failure(message: e.toString()));
     }
   }
@@ -87,12 +101,27 @@ class BookingsRepositoryImpl implements BookingsRepository {
   }
 
   @override
-  Future<void> registerPatient({required String token}) async {
-    // Keeping void return as per your definition
-    await http.post(
-      Uri.parse("${Url.baseUrl}${Url.patientUpdate}"),
-      headers: {"Authorization": "Bearer $token"},
-      body: {},
-    );
+  Future<void> registerPatient({
+    required String token,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      log('here : $data');
+      final response = await client.post(
+        url: "${Url.baseUrl}/${Url.patientUpdate}",
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+        data: data,
+        asForm: true,
+      );
+
+      log(response.toString());
+      if (response['status'] == true) {}
+    } catch (e) {
+      log('err : $e');
+      // return Left(Failure(message: e.toString()));
+    }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:ayucare/src/features/auth/presentation/widgets/button.dart';
-import 'package:ayucare/src/features/bookings/presentation/pages/book_a_slot.dart';
+import 'package:ayucare/src/features/bookings/controller/bookings_controller.dart';
 import 'package:ayucare/src/features/bookings/presentation/widgets/booking_card.dart';
 import 'package:ayucare/src/features/bookings/presentation/widgets/search.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +11,18 @@ class Bookings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ctr = Get.find<BookingsController>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 30), // for bottom button
+          padding: const EdgeInsets.only(bottom: 100), // for bottom button
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header Section
               Container(
-                padding: const EdgeInsets.only(top: 64, bottom: 20),
+                padding: const EdgeInsets.only(top: 4, bottom: 20),
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1, color: Color(0x33000000)),
@@ -165,13 +166,28 @@ class Bookings extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: List.generate(
-                    10,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Bookingcard(),
-                    ),
+                child: Obx(
+                  () => ctr.patientsState.value.onState(
+                    success: (data) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Bookingcard(
+                            patient: data[index],
+                            index: index + 1,
+                          ),
+                        ),
+                        itemCount: data.length,
+                      );
+                    },
+                    onFailed: (error) {
+                      return SizedBox();
+                    },
+                    onLoading: () {
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
                 ),
               ),
@@ -185,7 +201,7 @@ class Bookings extends StatelessWidget {
         child: Button(
           title: 'Register Now',
           onTap: () {
-            Get.to(() => const BookSlot());
+            Get.toNamed('/bookslot');
           },
         ),
       ),

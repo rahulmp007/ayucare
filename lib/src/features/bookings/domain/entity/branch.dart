@@ -1,5 +1,5 @@
 class Branch {
-  final int id;
+  final int? id;
   final String name;
   final String location;
   final String phone;
@@ -14,4 +14,9 @@ class Branch {
     required this.mail,
     required this.address,
   });
+
+  @override
+  String toString() {
+    return 'Branch(id: $id, name: $name, location: $location, phone: $phone, mail: $mail, address: $address)';
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:ayucare/src/features/auth/bindings/auth_binding.dart';
 import 'package:ayucare/src/features/auth/presentation/pages/login.dart';
 import 'package:ayucare/src/features/bookings/bindings/bookings_bindings.dart';
+import 'package:ayucare/src/features/bookings/presentation/pages/book_a_slot.dart';
 import 'package:ayucare/src/features/bookings/presentation/pages/bookings.dart';
 import 'package:ayucare/src/features/splash/bindings/splash_bindings.dart';
 import 'package:ayucare/src/features/splash/presentation/pages/splash.dart';
@@ -21,10 +22,11 @@ class AppPages {
       page: () => const Login(),
       binding: AuthBinding(),
     ),
-     GetPage(
+    GetPage(
       name: AppRoutes.bookings,
       page: () => const Bookings(),
       binding: BookingsBinding(),
     ),
+    GetPage(name: AppRoutes.bookslot, page: () => const BookSlot()),
   ];
 }

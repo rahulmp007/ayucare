@@ -4,7 +4,6 @@ import 'package:ayucare/src/features/auth/presentation/widgets/button.dart';
 import 'package:ayucare/src/features/auth/presentation/widgets/login_header.dart';
 import 'package:ayucare/src/features/auth/presentation/widgets/privacy_policy.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,10 +1,13 @@
-import 'dart:developer';
 
+import 'package:ayucare/src/core/extensions/date_time_extensions.dart';
+import 'package:ayucare/src/features/bookings/domain/entity/patient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Bookingcard extends StatelessWidget {
-  const Bookingcard({super.key});
+  final Patient patient;
+  final int index;
+  const Bookingcard({super.key, required this.patient, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class Bookingcard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "1.",
+                  "$index.",
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -35,7 +38,7 @@ class Bookingcard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Vikram Singh",
+                        patient.name,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -65,7 +68,7 @@ class Bookingcard extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                "31/01/2024",
+                                patient.dateTime.toReadableDate(),
                                 style: GoogleFonts.poppins(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
@@ -105,9 +108,7 @@ class Bookingcard extends StatelessWidget {
           const SizedBox(height: 24),
           Container(height: 1, color: Colors.grey[300]),
           InkWell(
-            onTap: () {
-              log("message");
-            },
+            onTap: () {},
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10),
